@@ -1,0 +1,161 @@
+<html>
+  <head>
+    <title>Beleza Soft - Manutenção de Usuários</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    <link href="style.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <div
+      style="
+        margin-left: 10%;
+        margin-top: 2%;
+        margin-right: 10%;
+        float: left;
+        width: 80%;
+      "
+    >
+      <img src="logo.png" width="300" alt="Logo" />
+      <h1 class="center-align pink-text text-darken-2">
+        Manutenção de Usuários
+      </h1>
+
+      <form id="form_usuario">
+        <input type="hidden" id="txtId" class="validate" required />
+        <div class="input-field col s12">
+          <label for="txtNome" style="background-color: #e4c1bb">Nome</label>
+          <input type="text" id="txtNome" style="outline: 1px solid #000" />
+        </div>
+        <br />
+        <br />
+        <div class="input-field col s12">
+          <label for="txtEmail">E-mail</label>
+          <input type="text" id="txtEmail" />
+        </div>
+        <br />
+        <br />
+        <label>Senha</label>
+        <input type="password" id="txtSenha" />
+        <br />
+        <br />
+        <div style="float: left; padding-left: 50px">
+          <button
+            type="button"
+            class="btn dropdown-trigger waves-effect waves-light pink"
+            onclick="salvar()"
+          >
+            Salvar
+          </button>
+          <button
+            type="button"
+            class="btn dropdown-trigger waves-effect waves-light pink"
+            onclick="window.history.back()"
+          >
+            Voltar
+          </button>
+          <button
+            type="button"
+            class="btn dropdown-trigger waves-effect waves-light pink"
+            onclick="resetForm()"
+          >
+            Novo
+          </button>
+        </div>
+      </form>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="./global.js"></script>
+  </body>
+</html>
+<script>
+  var txtId = document.getElementById("txtId");
+  var txtNome = document.getElementById("txtNome");
+  var txtEmail = document.getElementById("txtEmail");
+  var txtSenha = document.getElementById("txtSenha");
+
+  window.onload = function () {
+    // get parameter id from url
+    var queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const id = urlParams.get("id");
+    buscar(id);
+  };
+
+  async function buscar(id) {
+    if (id !== null) {
+      await fetch(url + "manusuario/" + id, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((response) => {
+        if (response.ok) {
+          response.json().then((data) => {
+            txtId.value = data[0]._id;
+            txtNome.value = data[0].nome;
+            txtEmail.value = data[0].email;
+            txtSenha.value = data[0].senha;
+            M.updateTextFields();
+          });
+        } else {
+          window.alert("Erro ao buscar o usuário!");
+        }
+      });
+    }
+  }
+
+  async function salvar() {
+    if (txtId.value === "") {
+      const data = {
+        nome: txtNome.value,
+        email: txtEmail.value,
+        senha: txtSenha.value,
+      };
+      fetch(url + "createusuario", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }).then((response) => {
+        if (response.ok) {
+          window.alert("Usuário cadastrado com sucesso!");
+          window.location.replace("index.html"); //Trocar pela lista de usuários
+        } else {
+          window.alert("Erro ao cadastrar o usuário!");
+        }
+      });
+    } else {
+      const data = {
+        nome: txtNome.value,
+        email: txtEmail.value,
+        senha: txtSenha.value,
+      };
+      fetch(url + "manusuario/" + txtId.value, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }).then((response) => {
+        if (response.ok) {
+          window.alert("Usuário atualizado com sucesso!");
+          window.location.replace("index.html"); //Trocar pela lista de usuários
+        } else {
+          window.alert("Erro ao atualizar o usuário!");
+        }
+      });
+    }
+  }
+
+  function resetForm() {
+    document.getElementById("form_usuario").reset();
+  }
+</script>

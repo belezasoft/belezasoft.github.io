@@ -1,0 +1,103 @@
+<html>
+  <head>
+    <title>Beleza Soft - Lista de Usuários</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    <link href="style.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <div
+      style="
+        margin-left: 10%;
+        margin-top: 2%;
+        margin-right: 10%;
+        float: left;
+        width: 80%;
+      "
+    >
+      <img src="logo.png" width="300" alt="Logo" />
+      <h1 class="center-align pink-text text-darken-2">Lista de Usuários</h1>
+      <table class="highlight">
+        <thead>
+          <tr>
+            <!-- <th>Id</th> -->
+            <th>Nome</th>
+            <th>E-mail</th>
+            <!-- <th style="text-align: right;">Editar</th> -->
+          </tr>
+        </thead>
+        <tbody id="tblUsuarios"></tbody>
+      </table>
+      <br />
+      <br />
+      <button
+        class="btn dropdown-trigger waves-effect waves-light pink"
+        onclick="novo();"
+      >
+        Novo
+      </button>
+      <button
+        class="btn dropdown-trigger waves-effect waves-light pink"
+        onclick="window.location.replace('index.html');"
+      >
+        Voltar
+      </button>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  </body>
+</html>
+<script>
+  // const url = "https://odinpy.azurewebsites.net/";
+  const url = "http://127.0.0.1:5000/";
+
+  window.onload = function () {
+    listar();
+  };
+
+  function novo() {
+    window.location.href = "manusuario.html";
+  }
+
+  function editar(id) {
+    window.location.href = "manusuario.html?id=" + id;
+  }
+
+  async function listar() {
+    await fetch(url + "listusuarios", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          var tblUsuarios = document.getElementById("tblUsuarios");
+          tblUsuarios.innerHTML = "";
+          for (var i = 0; i < data.length; i++) {
+            var linha = tblUsuarios.insertRow();
+            var coluna1 = linha.insertCell(0);
+            var coluna2 = linha.insertCell(1);
+            var coluna3 = linha.insertCell(2);
+
+            coluna1.innerHTML = data[i].nome;
+            coluna2.innerHTML = data[i].email;
+            coluna3.style.textAlign = "right";
+            coluna3.innerHTML =
+              '<button name="button" class="btn dropdown-trigger waves-effect waves-light pink" onclick="editar(\'' +
+              data[i]._id +
+              "')\">Editar</button>";
+          }
+        });
+      } else {
+        window.alert("Erro ao listar usuários");
+      }
+    });
+  }
+</script>
