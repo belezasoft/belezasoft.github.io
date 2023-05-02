@@ -25,6 +25,31 @@
       <img src="logo.png" width="300" alt="Logo" />
       <h1 class="center-align pink-text text-darken-2">Lista de Usuários</h1>
       <table class="highlight">
+        <div>          
+          <h6>Filtrar</h6>
+          <div class="row">
+            <div class="input-field col s6">
+              <input
+                type="text"
+                id="txtNome"
+                class="validate"
+                required
+                onkeyup="listar();"
+              />
+              <label for="txtNome">Nome</label>
+            </div>
+            <div class="input-field col s6">
+              <input
+                type="email"
+                id="txtEmail"
+                class="validate"
+                required
+                onkeyup="listar();"
+              />
+              <label for="txtEmail">E-mail</label>
+            </div>
+        </div>
+
         <thead>
           <tr>
             <!-- <th>Id</th> -->
@@ -55,6 +80,10 @@
   </body>
 </html>
 <script>
+
+  var txtNome = document.getElementById("txtNome");
+  var txtEmail = document.getElementById("txtEmail");
+
   window.onload = function () {
     listar();
   };
@@ -68,7 +97,15 @@
   }
 
   async function listar() {
-    await fetch(url + "listusuarios", {
+    var filter = "";
+    if(txtNome.value != "" && txtEmail.value != "")
+      filter += "?nome=" + txtNome.value + "&email=" + txtEmail.value;
+    else if(txtNome.value != "")
+      filter += "?nome=" + txtNome.value;
+    else if(txtEmail.value != "")
+      filter += "?email=" + txtEmail.value;
+
+    await fetch(url + "listusuarios" + filter, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
