@@ -1,49 +1,90 @@
 <html>
   <head>
-    <title>Beleza Soft - Manutenção de Agendamento</title>
-    
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="style.css" />
-    
+    <title>Beleza Soft - Manutenção de Agendamentos</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    <link href="style.css" rel="stylesheet" />
   </head>
 
   <body>
-    <h1>Manutenção de Agendamento</h1>
-    <form>
-      <input type="hidden" id="txtId" />
-      <label>Nome</label>
-      <input type="text" id="txtNome" />
-      <br />
-      <br />
-      <label>Data</label>
-      <input type="text" id="txtData" />
-      <br />
-      <br />
-      <label>Situação</label>
-      <input type="text" id="txtSituacao" />
-      <br />
-      <br />
-      <div style="float: left; padding-left: 50px">
-        <input class="btn dropdown-trigger waves-effect waves-light pink" type="reset" value="Novo" />
-        <input class="btn dropdown-trigger waves-effect waves-light pink" type="button" value="Salvar" onclick="salvar();" />
-        <input class="btn dropdown-trigger waves-effect waves-light pink" type="button" value="Voltar" onclick="window.history.back();" />
-      </div>
-    </form>
+    <div
+      style="
+        margin-left: 10%;
+        margin-top: 2%;
+        margin-right: 10%;
+        float: left;
+        width: 80%;
+      "
+    >
+      <img src="logo.png" width="300" alt="Logo" />
+      <h1 class="center-align pink-text text-darken-2">
+        Manutenção de Agendamentos
+      </h1>
+
+      <form id="form_usuario">
+        <input type="hidden" id="txtId" class="validate" required />
+        <div class="input-field col s12">
+          <label for="txtNome" style="background-color: #e4c1bb">Nome</label>
+          <input type="text" id="txtNome" style="outline: 1px solid #000" />
+        </div>
+        <br />
+        <br />
+        <div class="input-field col s12">
+          <label for="txtData">Data</label>
+          <input type="text" id="txtData" />
+        </div>
+        <br />
+        <br />
+        <label>Situacao</label>
+        <input type="text" id="txtSituacao" />
+        <br />
+        <br />
+        <div style="float: left; padding-left: 50px">
+          <button
+            type="button"
+            class="btn dropdown-trigger waves-effect waves-light pink"
+            onclick="salvar()"
+          >
+            Salvar
+          </button>
+          <button
+            type="button"
+            class="btn dropdown-trigger waves-effect waves-light pink"
+            onclick="window.history.back()"
+          >
+            Voltar
+          </button>
+          <button
+            type="button"
+            class="btn dropdown-trigger waves-effect waves-light pink"
+            onclick="resetForm()"
+          >
+            Novo
+          </button>
+        </div>
+      </form>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="./global.js"></script>
   </body>
 </html>
 <script>
-
   var txtId = document.getElementById("txtId");
   var txtNome = document.getElementById("txtNome");
   var txtData = document.getElementById("txtData");
-  var txtSituacao = document.getElementById("txtSituação");
+  var txtSituacao = document.getElementById("txtSituacao");
 
   window.onload = function () {
     // get parameter id from url
-    var queryString  = window.location.search;
+    var queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const id = urlParams.get('id')
+    const id = urlParams.get("id");
     buscar(id);
   };
 
@@ -59,8 +100,9 @@
           response.json().then((data) => {
             txtId.value = data[0]._id;
             txtNome.value = data[0].nome;
-            txtEmail.value = data[0].date;
-            txtSenha.value = data[0].senha;
+            txtData.value = data[0].dtagend;
+            txtSituacao.value = data[0].situacao;
+            M.updateTextFields();
           });
         } else {
           window.alert("Erro ao buscar o usuário!");
@@ -73,10 +115,10 @@
     if (txtId.value === "") {
       const data = {
         nome: txtNome.value,
-        date: txtData.value,
+        dtagend: txtData.value,
         situacao: txtSituacao.value,
       };
-      fetch(url + "createusuario", {
+      fetch(url + "createagendamento", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -84,18 +126,16 @@
         body: JSON.stringify(data),
       }).then((response) => {
         if (response.ok) {
-          window.alert("Agendamento editado com sucesso!");
+          window.alert("Agendamento cadastrado com sucesso!");
           window.location.replace("index.html"); //Trocar pela lista de usuários
         } else {
-          window.alert("Erro ao editar agendamento!");
+          window.alert("Erro ao cadastrar o agendamento!");
         }
       });
-    }
-    else
-    {
+    } else {
       const data = {
         nome: txtNome.value,
-        date: txtData.value,
+        dtagend: txtData.value,
         situacao: txtSituacao.value,
       };
       fetch(url + "managendamento/" + txtId.value, {
@@ -106,12 +146,16 @@
         body: JSON.stringify(data),
       }).then((response) => {
         if (response.ok) {
-          window.alert("Usuário atualizado com sucesso!");
+          window.alert("Agendamento atualizado com sucesso!");
           window.location.replace("index.html"); //Trocar pela lista de usuários
         } else {
-          window.alert("Erro ao atualizar o usuário!");
+          window.alert("Erro ao atualizar o agendamento!");
         }
       });
     }
+  }
+
+  function resetForm() {
+    document.getElementById("form_usuario").reset();
   }
 </script>
