@@ -1,53 +1,34 @@
 <html>
-  <head>
-    <title>Beleza Soft - Lista de Usuários</title>
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
-    />
-    <link href="style.css" rel="stylesheet" />
-  </head>
 
-  <body>
-    <div
-      style="
+<head>
+  <title>Beleza Soft - Lista de Usuários</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+  <link href="style.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div style="
         margin-left: 10%;
         margin-top: 2%;
         margin-right: 10%;
         float: left;
         width: 80%;
-      "
-    >
-      <img src="logo.png" width="300" alt="Logo" />
-      <h1 class="center-align pink-text text-darken-2">Lista de Usuários</h1>
-      <table class="highlight">
-        <div>          
-          <h6>Filtrar</h6>
-          <div class="row">
-            <div class="input-field col s6">
-              <input
-                type="text"
-                id="txtNome"
-                class="validate"
-                required
-                onkeyup="listar();"
-              />
-              <label for="txtNome">Nome</label>
-            </div>
-            <div class="input-field col s6">
-              <input
-                type="email"
-                id="txtEmail"
-                class="validate"
-                required
-                onkeyup="listar();"
-              />
-              <label for="txtEmail">E-mail</label>
-            </div>
+      ">
+    <img src="logo.png" width="300" alt="Logo" />
+    <h1 class="center-align pink-text text-darken-2">Lista de Usuários</h1>
+    <table class="highlight">
+      <div>
+        <h6>Filtrar</h6>
+        <div class="row">
+          <div class="input-field col s6">
+            <input type="text" id="txtNome" class="validate" required onkeyup="listar();" />
+            <label for="txtNome">Nome</label>
+          </div>
+          <div class="input-field col s6">
+            <input type="email" id="txtEmail" class="validate" required onkeyup="listar();" />
+            <label for="txtEmail">E-mail</label>
+          </div>
         </div>
 
         <thead>
@@ -59,32 +40,27 @@
           </tr>
         </thead>
         <tbody id="tblUsuarios"></tbody>
-      </table>
-      <br />
-      <br />
-      <button
-        class="btn dropdown-trigger waves-effect waves-light pink"
-        onclick="novo();"
-      >
-        Novo
-      </button>
-      <button
-        class="btn dropdown-trigger waves-effect waves-light pink"
-        onclick="window.location.replace('index.html');"
-      >
-        Voltar
-      </button>
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="./global.js"></script>
-  </body>
+    </table>
+    <br />
+    <br />
+    <button class="btn dropdown-trigger waves-effect waves-light pink" onclick="novo();">
+      Novo
+    </button>
+    <button class="btn dropdown-trigger waves-effect waves-light pink" onclick="window.location.replace('index.html');">
+      Voltar
+    </button>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="./global.js"></script>
+</body>
+
 </html>
 <script>
 
-if (!isLoggedIn()) {
+  if (!isLoggedIn()) {
     window.location.replace('login.html');
   }
-  
+
   var txtNome = document.getElementById("txtNome");
   var txtEmail = document.getElementById("txtEmail");
 
@@ -102,11 +78,11 @@ if (!isLoggedIn()) {
 
   async function listar() {
     var filter = "";
-    if(txtNome.value != "" && txtEmail.value != "")
+    if (txtNome.value != "" && txtEmail.value != "")
       filter += "?nome=" + txtNome.value + "&email=" + txtEmail.value;
-    else if(txtNome.value != "")
+    else if (txtNome.value != "")
       filter += "?nome=" + txtNome.value;
-    else if(txtEmail.value != "")
+    else if (txtEmail.value != "")
       filter += "?email=" + txtEmail.value;
 
     await fetch(url + "listusuarios" + filter, {
