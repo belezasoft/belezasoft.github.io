@@ -1,4 +1,4 @@
-const isDebugMode = true;
+const isDebugMode = false;
 
 // const url = ;
 const url = isDebugMode ? "http://localhost:5000/" : "https://fenix-nu.vercel.app/";
