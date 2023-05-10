@@ -1,66 +1,58 @@
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
-    />
-    <link href="style.css" rel="stylesheet" />
-    <title>Beleza Soft - Recuração de Senha</title>
-    <style>
-      #hp {
-        width: fit-content;
-        float: right;
-        margin: 50 100 0 0px;
-        -webkit-transform: scaleX(-1);
-        -moz-transform: scaleX(-1);
-        -o-transform: scaleX(-1);
-        transform: scaleX(-1);
-      }
-    </style>
-  </head>
 
-  <body>
-    <div style="margin-left: 10%; margin-top: 10%; float: left">
-      <form action="feed.html" method="get" style="background-color: #ffffff20">
-        <img src="logo.png" width="300" alt="Logo" />
-        <br />
-        <br />
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+  <link href="style.css" rel="stylesheet" />
+  <title>Beleza Soft - Recuração de Senha</title>
+  <style>
+    #hp {
+      width: fit-content;
+      float: right;
+      margin: 50 100 0 0px;
+      -webkit-transform: scaleX(-1);
+      -moz-transform: scaleX(-1);
+      -o-transform: scaleX(-1);
+      transform: scaleX(-1);
+    }
+  </style>
+</head>
 
-        <div class="row">
-          <form class="col s12">
-            <div class="row">
-              <div class="input-field col s12">
-                <input type="email" id="txtEmail" class="validate" required />
-                <label for="txtEmail">E-mail</label>
-              </div>
+<body>
+  <div style="margin-left: 10%; margin-top: 10%; float: left">
+    <form action="feed.html" method="get" style="background-color: #ffffff20">
+      <img src="logo.png" width="300" alt="Logo" />
+      <br />
+      <br />
+
+      <div class="row">
+        <form class="col s12">
+          <div class="row">
+            <div class="input-field col s12">
+              <input type="email" id="txtEmail" class="validate" required />
+              <label for="txtEmail">E-mail</label>
             </div>
-            <div class="row">
-              <div class="col s12">
-                <button
-                  type="button"
-                  class="btn waves-effect waves-light pink"
-                  onclick="enviaemail();"
-                >
-                  Confirmar
-                </button>
-              </div>
+          </div>
+          <div class="row">
+            <div class="col s12">
+              <button type="button" class="btn waves-effect waves-light pink" onclick="enviaemail();">
+                Confirmar
+              </button>
             </div>
-            <br /><br />
-            <br />
-          </form>
-        </div>
-      </form>
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="./global.js"></script>
-  </body>
+          </div>
+          <br /><br />
+          <br />
+        </form>
+      </div>
+    </form>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="./global.js"></script>
+</body>
+
 </html>
 <script>
 
