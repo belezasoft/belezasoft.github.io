@@ -75,6 +75,10 @@
   </body>
 </html>
 <script>
+    if (!isLoggedIn()) {
+    window.location.replace('login.html');
+  }
+  
   var txtId = document.getElementById("txtId");
   var txtNome = document.getElementById("txtNome");
   var txtEmail = document.getElementById("txtEmail");

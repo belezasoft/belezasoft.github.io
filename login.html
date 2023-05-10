@@ -75,6 +75,10 @@
     }).then((response) => {
       console.log(response);
       if (response.ok) {
+        var jsonResponse = response.json().then((data) => {
+            localStorage.setItem("token", data["_id"]);
+            localStorage.setItem("user_name", data["nome"]);
+          });
         //response.json
         window.location.replace("index.html");
       } else {

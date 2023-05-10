@@ -34,12 +34,26 @@
       onclick="window.location.href ='listagendamento.html'">Manutenção de Agendamentos</button>
     <br />
     <br />
-    <button class="btn dropdown-trigger waves-effect waves-light pink" onclick="window.location.replace('login.html')">
+    <button class="btn dropdown-trigger waves-effect waves-light pink" onclick="deslogar();">
       Deslogar
     </button>
   </div>
   <img src="Woman1.png" width="600" alt="Woman" id="hp" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="./global.js"></script>
 </body>
 
 </html>
+
+<script>
+
+  if (!isLoggedIn()) {
+    window.location.replace('login.html');
+  }
+
+  function deslogar() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user_name');
+    window.location.replace('login.html');
+  }
+</script>
