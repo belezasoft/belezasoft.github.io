@@ -9,8 +9,52 @@
 </head>
 
 <body>
+  <div
+      style="
+        margin-left: 10%;
+        margin-top: 2%;
+        margin-right: 10%;
+        float: left;
+        width: 80%;
+      "
+    >
+  <img src="logo.png" width="300" alt="Logo" />
   <h1 class="center-align pink-text text-darken-2">Lista de Agendamentos</h1>
-  <table class="highlight" >
+  <table class="highlight">
+    <div>          
+      <h6>Filtrar</h6>
+      <div class="row">
+        <div class="input-field col s6">
+          <input
+            type="text"
+            id="txtNome"
+            class="validate"
+            required
+            onkeyup="listar();"
+          />
+          <label for="txtNome">Nome</label>
+        </div>
+        <!--<div class="input-field col s6">
+          <input
+            type="date"
+            id="txtData"
+            class="validate"
+            required
+            onkeyup="listar();"
+          />
+          <label for="txtEmail">Data</label>
+        </div>
+        <div class="input-field col s6">
+          <input
+            type="text"
+            id="txtSituacao"
+            class="validate"
+            required
+            onkeyup="listar();"
+          />
+          <label for="txtSituacao">Situação</label>-->
+        </div>
+    </div>
     <thead>
       <tr>
         <!-- <th>Id</th> -->
@@ -24,13 +68,27 @@
   </table>
   <br />
   <br />
-  <input class="btn dropdown-trigger waves-effect waves-light pink" type="button" value="Novo" onclick="novo();" />
-  <input class="btn dropdown-trigger waves-effect waves-light pink" type="button" value="Voltar" onclick="window.location.replace('index.html');" />
-  <script src="./global.js"></script>
+  <button
+        class="btn dropdown-trigger waves-effect waves-light pink"
+        onclick="novo();"
+      >
+        Novo
+      </button>
+      <button
+        class="btn dropdown-trigger waves-effect waves-light pink"
+        onclick="window.location.replace('index.html');"
+      >
+        Voltar
+      </button>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="./global.js"></script>
 </body>
 
 </html>
 <script>
+
+var txtNome = document.getElementById("txtNome");
 
 
   window.onload = function () {
@@ -46,7 +104,13 @@
   }
 
   async function listar() {
-    await fetch(url + "listagendamentos", {
+    var filter = "";
+    if(txtNome.value != "")
+      filter += "?nome=" + txtNome.value;
+    else if(txtNome.value != "")
+      filter += "?nome=" + txtNome.value;
+
+    await fetch(url + "listagendamentos" + filter, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
