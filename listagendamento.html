@@ -117,7 +117,7 @@
             var coluna4 = linha.insertCell(3);
 
             coluna1.innerHTML = data[i].nome;
-            coluna2.innerHTML = new Date(data[i].dtagend).toLocaleDateString();
+            coluna2.innerHTML = convertDateBR(data[i].dtagend);
             coluna3.innerHTML = data[i].situacao;
             coluna4.innerHTML = '<button class="btn dropdown-trigger waves-effect waves-light pink" name="button" value="OK" type="button" onclick="editar(\'' +
               data[i]._id +

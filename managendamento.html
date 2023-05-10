@@ -87,7 +87,7 @@
           response.json().then((data) => {
             txtId.value = data[0]._id;
             txtNome.value = data[0].nome;
-            txtData.value = data[0].dtagend;
+            txtData.value =  convertDateBR(data[0].dtagend);
             txtSituacao.value = data[0].situacao;
             M.updateTextFields();
           });
@@ -102,7 +102,7 @@
     if (txtId.value === "") {
       const data = {
         nome: txtNome.value,
-        dtagend: txtData.value,
+        dtagend: convertDateUS(txtData.value),
         situacao: txtSituacao.value,
       };
       fetch(url + "createagendamento", {
@@ -122,7 +122,7 @@
     } else {
       const data = {
         nome: txtNome.value,
-        dtagend: txtData.value,
+        dtagend: convertDateUS(txtData.value),
         situacao: txtSituacao.value,
       };
       fetch(url + "managendamento/" + txtId.value, {
