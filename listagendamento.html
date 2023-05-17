@@ -50,9 +50,11 @@
       <thead>
         <tr>
           <!-- <th>Id</th> -->
-          <th>Nome</th>
-          <th>Data</th>
-          <th>Situacão</th>
+          <th style="width:70%">Nome</th>
+          <th style="width:10%">Data</th>
+          <th style="width:10%">Situacão</th>
+          <th style="width:5%"></th>
+          <th style="width:5%"></th>
 
         </tr>
       </thead>
@@ -100,6 +102,27 @@
     window.location.href = "managendamento.html?id=" + id;
   }
 
+  async function alterarSituacao(id, situacao) {
+    const data = {
+      situacao: situacao == 0 ? 1 : 0,
+    };
+    fetch(url + "agendamento/situacao/" + id, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }).then((response) => {
+      if (response.ok) {
+        window.alert("Agendamento Pago com sucesso!");
+        listar();
+      } else {
+        window.alert("Erro ao atualizar o agendamento!");
+      }
+    });
+
+  }
+
   async function listar() {
     var filter = "";
     if (txtNome.value != "")
@@ -123,6 +146,7 @@
             var coluna2 = linha.insertCell(1);
             var coluna3 = linha.insertCell(2);
             var coluna4 = linha.insertCell(3);
+            var coluna5 = linha.insertCell(4);
 
             coluna1.innerHTML = data[i].nome;
             coluna2.innerHTML = convertDateBR(data[i].dtagend);
@@ -130,7 +154,11 @@
             coluna4.innerHTML = '<button class="btn dropdown-trigger waves-effect waves-light pink" name="button" value="OK" type="button" onclick="editar(\'' +
               data[i]._id +
               "')\">Editar</button>";;
-
+            if (data[i].situacao == "0") {
+              coluna5.innerHTML = '<button class="btn dropdown-trigger waves-effect waves-light pink" name="button" value="OK" type="button" onclick="alterarSituacao(\'' +
+                data[i]._id + "'," + data[i].situacao +
+                ")\">Pagar</button>";;
+            }
           }
         });
       } else {
