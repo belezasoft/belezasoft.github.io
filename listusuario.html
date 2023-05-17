@@ -22,11 +22,11 @@
         <h6>Filtrar</h6>
         <div class="row">
           <div class="input-field col s6">
-            <input type="text" id="txtNome" class="validate" required onkeyup="listar();" />
+            <input type="text" id="txtNome" class="validate" />
             <label for="txtNome">Nome</label>
           </div>
           <div class="input-field col s6">
-            <input type="email" id="txtEmail" class="validate" required onkeyup="listar();" />
+            <input type="email" id="txtEmail" class="validate" />
             <label for="txtEmail">E-mail</label>
           </div>
         </div>
@@ -56,13 +56,22 @@
 
 </html>
 <script>
-
   if (!isLoggedIn()) {
     window.location.replace('login.html');
   }
 
   var txtNome = document.getElementById("txtNome");
   var txtEmail = document.getElementById("txtEmail");
+
+  function onKeyUpFiltro(event) {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+      listar();
+    }
+  }
+
+  txtNome.addEventListener("keyup", onKeyUpFiltro);
+  txtEmail.addEventListener("keyup", onKeyUpFiltro);
 
   window.onload = function () {
     listar();
