@@ -1,0 +1,10 @@
+@media screen {
+    div.divFooter {
+        height: 70;
+        z-index: 1;
+        background-color: rgb(255, 40, 86);
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+    }
+}
