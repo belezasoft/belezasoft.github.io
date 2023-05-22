@@ -27,18 +27,22 @@
         <input type="text" id="txtNome" style="outline: 1px solid #000" />
       </div>
       <br />
-      <br />
-      <div >
-        <label for="txtData">Data</label>
-        <input type="date" id="txtData" />
-      </div>
-      <br />
-      <br />
-      <div >
-        <label for="txtHora">Hora</label>
-        <input type="time" id="txtHora" />
-      </div>
-      <br />
+      <table>
+        <tr>
+          <td>
+            <div class="input-field col s12">
+              <label for="txtData" >Data</label>
+              <input type="date" id="txtData" />
+            </div>
+          </td>
+          <td>
+            <div class="input-field col s12">
+              <label for="txtHora">Hora</label>
+              <input type="text" id="txtHora" />
+            </div>
+          </td>
+        </tr>
+      </table>
       <br />
       <label>Situacao</label>
       <input type="text" id="txtSituacao" />
@@ -63,6 +67,26 @@
 </body>
 
 </html>
+
+<script>
+  // Initialize Materialize time picker
+  const timeInput = document.querySelector('#txtHora');
+  const timePickerInstance = M.Timepicker.init(timeInput, {
+    twelveHour: false, // Set to true if you want a 12-hour format
+    onCloseEnd: validateTimeSelection
+  });
+
+  function validateTimeSelection() {
+    const selectedTime = timeInput.value.split(':');
+    const selectedMinutes = parseInt(selectedTime[1]);
+
+    if (selectedMinutes % 10 !== 0) {
+      M.toast({html: 'Horário Ajustado'});
+
+      // timeInput.value = ''; // Clear the invalid selection
+    }
+  }
+</script>
 <script>
   if (!isLoggedIn()) {
     window.location.replace('login.html');
@@ -94,8 +118,8 @@
           response.json().then((data) => {
             txtId.value = data[0]._id;
             txtNome.value = data[0].nome;
-            txtData.value =  data[0].dtagend;
-            txtHora.value =  data[0].hora;
+            txtData.value = data[0].dtagend;
+            txtHora.value = data[0].hora;
             txtSituacao.value = data[0].situacao;
             M.updateTextFields();
           });
