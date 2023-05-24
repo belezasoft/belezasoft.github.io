@@ -28,9 +28,15 @@
       </div>
       <br />
       <br />
-      <div class="input-field col s12">
+      <div >
         <label for="txtData">Data</label>
-        <input type="text" id="txtData" />
+        <input type="date" id="txtData" />
+      </div>
+      <br />
+      <br />
+      <div >
+        <label for="txtHora">Hora</label>
+        <input type="time" id="txtHora" />
       </div>
       <br />
       <br />
@@ -65,6 +71,7 @@
   var txtId = document.getElementById("txtId");
   var txtNome = document.getElementById("txtNome");
   var txtData = document.getElementById("txtData");
+  var txtHora = document.getElementById("txtHora");
   var txtSituacao = document.getElementById("txtSituacao");
 
   window.onload = function () {
@@ -87,7 +94,8 @@
           response.json().then((data) => {
             txtId.value = data[0]._id;
             txtNome.value = data[0].nome;
-            txtData.value =  convertDateBR(data[0].dtagend);
+            txtData.value =  data[0].dtagend;
+            txtHora.value =  data[0].hora;
             txtSituacao.value = data[0].situacao;
             M.updateTextFields();
           });
@@ -102,7 +110,8 @@
     if (txtId.value === "") {
       const data = {
         nome: txtNome.value,
-        dtagend: convertDateUS(txtData.value),
+        dtagend: txtData.value,
+        hora: txtHora.value,
         situacao: txtSituacao.value,
       };
       fetch(url + "createagendamento", {
@@ -122,7 +131,8 @@
     } else {
       const data = {
         nome: txtNome.value,
-        dtagend: convertDateUS(txtData.value),
+        dtagend: txtData.value,
+        hora: txtHora.value,
         situacao: txtSituacao.value,
       };
       fetch(url + "managendamento/" + txtId.value, {
