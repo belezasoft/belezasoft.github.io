@@ -52,6 +52,7 @@
           <!-- <th>Id</th> -->
           <th style="width:70%">Nome</th>
           <th style="width:10%">Data</th>
+          <th style="width:10%">Hora</th>
           <th style="width:10%">Situacão</th>
           <th style="width:5%"></th>
           <th style="width:5%"></th>
@@ -147,15 +148,17 @@
             var coluna3 = linha.insertCell(2);
             var coluna4 = linha.insertCell(3);
             var coluna5 = linha.insertCell(4);
+            var coluna6 = linha.insertCell(5);
 
             coluna1.innerHTML = data[i].nome;
             coluna2.innerHTML = convertDateBR(data[i].dtagend);
-            coluna3.innerHTML = data[i].situacao;
-            coluna4.innerHTML = '<button class="btn dropdown-trigger waves-effect waves-light pink" name="button" value="OK" type="button" onclick="editar(\'' +
+            coluna3.innerHTML = data[i].hora;
+            coluna4.innerHTML = data[i].situacao;
+            coluna5.innerHTML = '<button class="btn dropdown-trigger waves-effect waves-light pink" name="button" value="OK" type="button" onclick="editar(\'' +
               data[i]._id +
               "')\">Editar</button>";;
             if (data[i].situacao == "0") {
-              coluna5.innerHTML = '<button class="btn dropdown-trigger waves-effect waves-light pink" name="button" value="OK" type="button" onclick="alterarSituacao(\'' +
+              coluna6.innerHTML = '<button class="btn dropdown-trigger waves-effect waves-light pink" name="button" value="OK" type="button" onclick="alterarSituacao(\'' +
                 data[i]._id + "'," + data[i].situacao +
                 ")\">Pagar</button>";;
             }

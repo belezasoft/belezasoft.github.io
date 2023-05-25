@@ -20,7 +20,7 @@
       Manutenção de Agendamentos
     </h1>
 
-    <form id="form_usuario">
+    <form id="form_usuario" autocomplete="off">
       <input type="hidden" id="txtId" class="validate" required />
       <div class="input-field col s12">
         <label for="txtNome" style="background-color: #e4c1bb">Nome</label>
@@ -30,15 +30,16 @@
       <table>
         <tr>
           <td>
-            <div class="input-field col s12">
-              <label for="txtData" >Data</label>
-              <input type="date" id="txtData" />
+            <div class="col s12">
+              <i class="material-icons prefix">account_circle</i>
+              <label for="txtData">Data</label>
+              <input type="text" id="txtData" />
             </div>
           </td>
           <td>
-            <div class="input-field col s12">
+            <div class="container col s12">
               <label for="txtHora">Hora</label>
-              <input type="text" id="txtHora" />
+              <input type="text" id="txtHora" class="timepicker" />
             </div>
           </td>
         </tr>
@@ -69,25 +70,6 @@
 </html>
 
 <script>
-  // Initialize Materialize time picker
-  const timeInput = document.querySelector('#txtHora');
-  const timePickerInstance = M.Timepicker.init(timeInput, {
-    twelveHour: false, // Set to true if you want a 12-hour format
-    onCloseEnd: validateTimeSelection
-  });
-
-  function validateTimeSelection() {
-    const selectedTime = timeInput.value.split(':');
-    const selectedMinutes = parseInt(selectedTime[1]);
-
-    if (selectedMinutes % 10 !== 0) {
-      M.toast({html: 'Horário Ajustado'});
-
-      // timeInput.value = ''; // Clear the invalid selection
-    }
-  }
-</script>
-<script>
   if (!isLoggedIn()) {
     window.location.replace('login.html');
   }
@@ -103,7 +85,10 @@
     var queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const id = urlParams.get("id");
-    buscar(id);
+    buscar(id).then((encontrou) => {
+      if (!encontrou) resetForm();
+    });
+
   };
 
   async function buscar(id) {
@@ -118,26 +103,29 @@
           response.json().then((data) => {
             txtId.value = data[0]._id;
             txtNome.value = data[0].nome;
-            txtData.value = data[0].dtagend;
+            txtData.value = convertDateBR(data[0].dtagend);
             txtHora.value = data[0].hora;
             txtSituacao.value = data[0].situacao;
             M.updateTextFields();
           });
+          return true;
         } else {
           window.alert("Erro ao buscar o usuário!");
         }
       });
     }
+    return false;
   }
 
   async function salvar() {
+    const data = {
+      nome: txtNome.value,
+      dtagend: convertDateUS(txtData.value),
+      hora: txtHora.value,
+      situacao: txtSituacao.value,
+    };
     if (txtId.value === "") {
-      const data = {
-        nome: txtNome.value,
-        dtagend: txtData.value,
-        hora: txtHora.value,
-        situacao: txtSituacao.value,
-      };
+
       fetch(url + "createagendamento", {
         method: "POST",
         headers: {
@@ -147,18 +135,12 @@
       }).then((response) => {
         if (response.ok) {
           window.alert("Agendamento cadastrado com sucesso!");
-          window.location.replace("index.html"); //Trocar pela lista de usuários
+          window.location.replace("listagendamento.html");
         } else {
           window.alert("Erro ao cadastrar o agendamento!");
         }
       });
     } else {
-      const data = {
-        nome: txtNome.value,
-        dtagend: txtData.value,
-        hora: txtHora.value,
-        situacao: txtSituacao.value,
-      };
       fetch(url + "managendamento/" + txtId.value, {
         method: "PUT",
         headers: {
@@ -168,7 +150,7 @@
       }).then((response) => {
         if (response.ok) {
           window.alert("Agendamento atualizado com sucesso!");
-          window.location.replace("index.html"); //Trocar pela lista de usuários
+          window.location.replace("listagendamento.html");
         } else {
           window.alert("Erro ao atualizar o agendamento!");
         }
@@ -178,5 +160,65 @@
 
   function resetForm() {
     document.getElementById("form_usuario").reset();
+    var today = new Date();
+    txtData.value = today.toLocaleDateString("pt-BR");
+    const hour = today.getHours();
+    const minutes = today.getMinutes();
+    txtHora.value = correctTimeToInterval(hour, minutes)
   }
+
+  // Initialize Materialize time picker
+  const timeInput = document.querySelector('#txtHora');
+  const timePickerInstance = M.Timepicker.init(timeInput, {
+    twelveHour: false, // Set to true if you want a 12-hour format
+    onCloseEnd: validateTimeSelection,
+  });
+
+
+  function validateTimeSelection() {
+    const selectedTime = timeInput.value.split(':');
+    const selectedHour = parseInt(selectedTime[0]);
+    const selectedMinutes = parseInt(selectedTime[1]);
+
+    timeInput.value = correctTimeToInterval(selectedHour, selectedMinutes)
+  }
+
+  function correctTimeToInterval(hour, minutes) {
+    if (minutes % 30 !== 0) {
+      M.toast({ html: 'Horário Ajustado' });
+      if (minutes > 30) {
+        return (hour + 1) + ':00';
+      }
+      return hour + ':30';
+    }
+    return hour + ':' + minutes.toLocaleString('pt-BR', { minimumIntegerDigits: 2, useGrouping: false });
+  }
+
+  // Initialize Materialize date picker
+  const dateInput = document.querySelector('#txtData');
+  const datePickerInstance = M.Datepicker.init(dateInput, {
+    i18n: {
+      months: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+      monthsShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+      weekdays: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sabádo'],
+      weekdaysShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+      weekdaysAbbrev: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
+      today: 'Hoje',
+      clear: 'Limpar',
+      cancel: 'Sair',
+      done: 'Confirmar',
+      labelMonthNext: 'Próximo mês',
+      labelMonthPrev: 'Mês anterior',
+      labelMonthSelect: 'Selecione um mês',
+      labelYearSelect: 'Selecione um ano',
+      selectMonths: true,
+      selectYears: 15,
+    },
+    format: 'dd/mm/yyyy',
+    container: 'body',
+    minDate: new Date(),
+    defaultDate: new Date(),
+    setDefaultDate: true,
+  });
+
 </script>
