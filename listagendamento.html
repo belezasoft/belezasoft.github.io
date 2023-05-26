@@ -153,7 +153,19 @@
             coluna1.innerHTML = data[i].nome;
             coluna2.innerHTML = convertDateBR(data[i].dtagend);
             coluna3.innerHTML = data[i].hora;
-            coluna4.innerHTML = data[i].situacao;
+            switch (parseInt(data[i].situacao.toString())) {
+              case 0:
+                coluna4.innerHTML = "Pendente"
+                break;
+              case 1:
+                coluna4.innerHTML = "Pago"
+                break;
+              case 2:
+                coluna4.innerHTML = "Cancelado"
+                break;
+              default:
+                break;
+            }
             coluna5.innerHTML = '<button class="btn dropdown-trigger waves-effect waves-light pink" name="button" value="OK" type="button" onclick="editar(\'' +
               data[i]._id +
               "')\">Editar</button>";;
