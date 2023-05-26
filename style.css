@@ -23,6 +23,32 @@ tr, td {
 a{
   font-size: larger;
 }
+
+.segmented-control button {
+  border-radius: 0;
+  /* padding: 0.5rem 1rem; */
+  vertical-align: middle;
+  width: 120px;
+  background-color: #fbb7d0;
+  color: #000000;
+}
+
+.segmented-control button:not(:last-child) {
+  margin-right: -5px;
+}
+.segmented-control button:first-child {
+  border-top-left-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+}
+
+.segmented-control button:last-child {
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+}
+.segmented-control button.active {
+  background-color: #ee367a;
+  color: #fff;
+}
 /* .dados{
   width: 400px;
   height: 400px;

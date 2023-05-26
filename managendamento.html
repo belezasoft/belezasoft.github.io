@@ -4,6 +4,7 @@
   <title>Beleza Soft - Manutenção de Agendamentos</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+  
   <link href="style.css" rel="stylesheet" />
 </head>
 
@@ -27,27 +28,30 @@
         <input type="text" id="txtNome" style="outline: 1px solid #000" />
       </div>
       <br />
-      <table>
-        <tr>
-          <td>
-            <div class="col s12">
-              <i class="material-icons prefix">account_circle</i>
-              <label for="txtData">Data</label>
-              <input type="text" id="txtData" />
-            </div>
-          </td>
-          <td>
-            <div class="container col s12">
-              <label for="txtHora">Hora</label>
-              <input type="text" id="txtHora" class="timepicker" />
-            </div>
-          </td>
-        </tr>
-      </table>
+      <div style="display: flex;">
+        <div class="container col s12">
+          <label for="txtData">Data</label>
+          <div  style="display: flex;">
+            <input type="text" id="txtData" />
+            <i class="material-icons prefix">schedule</i>
+          </div>
+        </div>
+        <div style="width: 80px;"></div>
+        <div class="container col s12">
+          <label for="txtHora">Hora</label>
+          <div  style="display: flex;">
+            <input type="text" id="txtHora" class="timepicker" />
+            <i class="material-icons prefix">schedule</i>
+          </div>
+        </div>
+      </div>
       <br />
       <label>Situacao</label>
-      <input type="text" id="txtSituacao" />
-      <br />
+      <div class="segmented-control">
+        <button type="button" id="pendente-btn" class="btn btn-segmented">Pendente</button>
+        <button type="button" id="pago-btn" class="btn btn-segmented">Pago</button>
+        <button type="button" id="cancelado-btn" class="btn btn-segmented">Cancelado</button>
+      </div>
       <br />
       <div style="float: left; padding-left: 50px">
         <button type="button" class="btn dropdown-trigger waves-effect waves-light pink" onclick="salvar()">
@@ -78,7 +82,7 @@
   var txtNome = document.getElementById("txtNome");
   var txtData = document.getElementById("txtData");
   var txtHora = document.getElementById("txtHora");
-  var txtSituacao = document.getElementById("txtSituacao");
+  var situacao = 0;
 
   window.onload = function () {
     // get parameter id from url
@@ -105,7 +109,11 @@
             txtNome.value = data[0].nome;
             txtData.value = convertDateBR(data[0].dtagend);
             txtHora.value = data[0].hora;
-            txtSituacao.value = data[0].situacao;
+            situacao = data[0].situacao;
+            if(situacao==0) document.getElementById("pendente-btn").click();
+            else if(situacao==1) document.getElementById("pago-btn").click();
+            else document.getElementById("cancelado-btn").click();
+              
             M.updateTextFields();
           });
           return true;
@@ -122,7 +130,7 @@
       nome: txtNome.value,
       dtagend: convertDateUS(txtData.value),
       hora: txtHora.value,
-      situacao: txtSituacao.value,
+      situacao: situacao,
     };
     if (txtId.value === "") {
 
@@ -164,7 +172,8 @@
     txtData.value = today.toLocaleDateString("pt-BR");
     const hour = today.getHours();
     const minutes = today.getMinutes();
-    txtHora.value = correctTimeToInterval(hour, minutes)
+    txtHora.value = correctTimeToInterval(hour, minutes);
+    document.getElementById('pendente-btn').click();
   }
 
   // Initialize Materialize time picker
@@ -221,4 +230,35 @@
     setDefaultDate: true,
   });
 
+  document.addEventListener('DOMContentLoaded', function() {
+  var pendenteBtn = document.getElementById('pendente-btn');
+  var pagoBtn = document.getElementById('pago-btn');
+  var canceladoBtn = document.getElementById('cancelado-btn');
+  
+    // Event listener for "Pendente" button
+    pendenteBtn.addEventListener('click', function() {
+      pendenteBtn.classList.add('active');
+      pagoBtn.classList.remove('active');
+      canceladoBtn.classList.remove('active');
+      situacao = 0;
+    });
+
+    // Event listener for "Pago" button
+    pagoBtn.addEventListener('click', function() {
+      pendenteBtn.classList.remove('active');
+      pagoBtn.classList.add('active');
+      canceladoBtn.classList.remove('active');
+      situacao = 1;
+      // Additional actions for "Pago" option
+    });
+
+    // Event listener for "Cancelado" button
+    canceladoBtn.addEventListener('click', function() {
+      pendenteBtn.classList.remove('active');
+      pagoBtn.classList.remove('active');
+      canceladoBtn.classList.add('active');
+      situacao = 2;
+      // Additional actions for "Cancelado" option
+    });
+  });
 </script>
