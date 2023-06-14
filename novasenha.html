@@ -117,8 +117,8 @@
       if (response.ok) {
         //response.json
         window.location.replace("login.html");
-      } else {
-        window.alert("Senhas estão diferentes");
+      } else {       
+        M.toast({ html: 'Senhas estão diferentes' });
       }
     });
   }
