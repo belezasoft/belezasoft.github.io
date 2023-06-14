@@ -118,7 +118,7 @@
           });
           return true;
         } else {
-          window.alert("Erro ao buscar o usuário!");
+          M.toast({ html: 'Erro ao buscar o usuário!' });
         }
       });
     }
@@ -142,10 +142,10 @@
         body: JSON.stringify(data),
       }).then((response) => {
         if (response.ok) {
-          window.alert("Agendamento cadastrado com sucesso!");
+          M.toast({ html: 'Agendamento cadastrado com sucesso!' });
           window.location.replace("listagendamento.html");
         } else {
-          window.alert("Erro ao cadastrar o agendamento!");
+          M.toast({ html: 'Erro ao cadastrar o agendamento!' });
         }
       });
     } else {
@@ -157,10 +157,10 @@
         body: JSON.stringify(data),
       }).then((response) => {
         if (response.ok) {
-          window.alert("Agendamento atualizado com sucesso!");
+          M.toast({ html: 'Agendamento atualizado com sucesso!' });
           window.location.replace("listagendamento.html");
         } else {
-          window.alert("Erro ao atualizar o agendamento!");
+          M.toast({ html: 'Erro ao atualizar o agendamento!' });
         }
       });
     }

@@ -92,7 +92,7 @@
             M.updateTextFields();
           });
         } else {
-          window.alert("Erro ao buscar o usuário!");
+          M.toast({ html: 'Erro ao buscar o usuário!' });
         }
       });
     }
@@ -113,10 +113,10 @@
         body: JSON.stringify(data),
       }).then((response) => {
         if (response.ok) {
-          window.alert("Usuário cadastrado com sucesso!");
+          M.toast({ html: 'Usuário cadastrado com sucesso!' });
           window.location.replace("listusuario.html");
         } else {
-          window.alert("Erro ao cadastrar o usuário!");
+          M.toast({ html: 'Erro ao cadastrar o usuário!' });
         }
       });
     } else {
@@ -136,7 +136,7 @@
           window.alert("Usuário atualizado com sucesso!");
           window.location.replace("listusuario.html");
         } else {
-          window.alert("Erro ao atualizar o usuário!");
+          M.toast({ html: 'Erro ao atualizar o usuário!' });
         }
       });
     }
